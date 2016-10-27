@@ -145,6 +145,7 @@ code.hljs {
 }
 .edit-user {
     font-size: 12pt;
+    font-weight: 400;
     cursor: pointer;
 }
 .CodeMirror, .CodeMirror-scroll {

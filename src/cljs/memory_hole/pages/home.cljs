@@ -16,13 +16,13 @@
      [bs/InputGroup
       [bs/FormControl
        {:type        "text"
-        :placeholder "type in issue details to find matching issues"
+        :placeholder "Type in issue details to find matching issues"
         :on-change   #(reset! search (-> % .-target .-value))
         :on-key-down #(on-enter % do-search)}]
       [bs/InputGroup.Button
        [bs/Button
         {:on-click do-search}
-        "search"]]]]))
+        "Search"]]]]))
 
 (defn new-issue []
   [:span.pull-right
