@@ -30,13 +30,11 @@
      [validation-modal errors]
      [:div.pull-right
       [:div.btn-toolbar
-       [bs/Button
-        {:bs-style "danger btn-sm"
-         :on-click close-editor}
+       [:button.btn.btn-sm.btn-danger
+        {:on-click close-editor}
         "Cancel"]
-       [bs/Button
-        {:bs-style   "success btn-sm"
-         :pull-right true
+       [:button.btn.btn-sm.btn-success
+        {:pull-right true
          :on-click   #(let [new-user? (nil? user-id)]
                        (when-not (reset! errors
                                          ((if new-user?

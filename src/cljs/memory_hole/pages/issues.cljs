@@ -130,7 +130,7 @@
        "Save"]]]))
 
 (defn render-tags [tags]
-  [:span
+  [:p
    (for [tag tags]
      ^{:key tag}
      [bs/Label
