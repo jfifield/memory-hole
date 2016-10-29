@@ -1,4 +1,4 @@
-(ns memory-hole.pages.issues
+(ns memory-hole.pages.issue
   (:require [cljsjs.showdown]
             [clojure.set :refer [difference rename-keys]]
             [clojure.string :as s]

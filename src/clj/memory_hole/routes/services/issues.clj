@@ -47,6 +47,7 @@
 
 (def IssueSummaryResults
   {(s/optional-key :issues) [IssueSummary]
+   (s/optional-key :count)  s/Num
    (s/optional-key :error)  s/Str})
 
 (def TagResult
@@ -64,7 +65,9 @@
   (ok {:tag (merge m (db/create-tag<! m))}))
 
 (handler all-issues []
-  (ok {:issues (db/issues {})}))
+  (ok (merge
+        {:issues (db/issues {})}
+        (db/issue-count))))
 
 (handler recent-issues [limit]
   (ok {:issues (db/recently-viewed-issues {:limit limit})}))

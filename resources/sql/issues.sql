@@ -72,6 +72,10 @@ GROUP BY
   si.support_issue_id
 ORDER BY last_viewed_date;
 
+-- :name issue-count :? :1
+-- :doc total issues
+SELECT count(*) FROM support_issues WHERE delete_date IS NULL
+
 -- :name recently-viewed-issues :? :*
 -- :doc Gets the top x number of issues, based on last views
 SELECT

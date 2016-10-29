@@ -6,7 +6,7 @@
             [memory-hole.pages.common :refer [loading-throbber error-modal]]
             [memory-hole.pages.admin.users :refer [users-page]]
             [memory-hole.pages.home :refer [home-page]]
-            [memory-hole.pages.issues :refer [edit-issue-page view-issue-page]]
+            [memory-hole.pages.issue :refer [edit-issue-page view-issue-page]]
             [memory-hole.pages.auth :refer [login-page logout]]))
 
 (defn nav-link [url title page]

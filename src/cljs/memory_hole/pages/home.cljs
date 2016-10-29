@@ -1,7 +1,7 @@
 (ns memory-hole.pages.home
   (:require [reagent.core :as r]
             [re-frame.core :refer [subscribe]]
-            [memory-hole.pages.issues :refer [markdown-preview]]
+            [memory-hole.pages.issue :refer [markdown-preview]]
             [memory-hole.key-events :refer [on-enter]]
             [memory-hole.bootstrap :as bs]
             [memory-hole.routes :refer [href navigate!]]
@@ -94,9 +94,9 @@
      [:button.btn.btn-xs.btn-success selected])])
 
 (defn home-page []
-  (r/with-let [tags     (subscribe [:tags])
-               issues   (subscribe [:issues])
-               selected (subscribe [:selected-tag])]
+  (r/with-let [tags        (subscribe [:tags])
+               issues      (subscribe [:issues])
+               selected    (subscribe [:selected-tag])]
     [:div.container
      [:div.row
       [:div.col-sm-3

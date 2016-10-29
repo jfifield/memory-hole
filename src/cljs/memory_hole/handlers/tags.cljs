@@ -18,7 +18,7 @@
   (fn [db _]
     (GET "/api/tags"
          {:handler       #(dispatch [:set-tags (:tags %)])
-          :error-handler #(ajax-error %)})
+          :error-handler ajax-error})
     db))
 
 (reg-event-db
@@ -32,5 +32,5 @@
     (POST "/api/tag"
           {:params        {:tag tag}
            :handler       #(dispatch [:add-tag %])
-           :error-handler #(ajax-error %)})
+           :error-handler ajax-error})
     db))

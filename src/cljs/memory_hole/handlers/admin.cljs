@@ -13,7 +13,7 @@
   (fn [db [_ screenname]]
     (GET (str "/admin/users/" screenname)
          :handler #(dispatch [:admin/set-users (:users %)])
-         :error-handler #(ajax-error %))
+         :error-handler ajax-error)
     db))
 
 (reg-event-db
@@ -29,7 +29,7 @@
     (PUT "/admin/user"
          {:params        user
           :handler       #(dispatch [:admin/set-user-info (:user %)])
-          :error-handler #(ajax-error %)})
+          :error-handler ajax-error})
     db))
 
 (reg-event-db
@@ -37,5 +37,5 @@
   (fn [db [_ user]]
     (POST "/admin/user"
           {:params        user
-           :error-handler #(ajax-error %)})
+           :error-handler ajax-error})
     db))

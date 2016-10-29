@@ -25,7 +25,7 @@
   (fn [db _]
     (GET "/api/issues"
          {:handler       #(dispatch [:set-issues (:issues %)])
-          :error-handler #(ajax-error %)})
+          :error-handler ajax-error})
     db))
 
 (reg-event-db
@@ -33,7 +33,7 @@
   (fn [db _]
     (GET "/api/recent-issues"
          {:handler       #(dispatch [:set-issues (:issues %)])
-          :error-handler #(ajax-error %)})
+          :error-handler ajax-error})
     db))
 
 (reg-event-db
@@ -41,7 +41,7 @@
   (fn [db _]
     (GET "/api/issues-by-views/0/20"
          {:handler       #(dispatch [:set-issues (:issues %)])
-          :error-handler #(ajax-error %)})
+          :error-handler ajax-error})
     db))
 
 (reg-event-db
@@ -49,7 +49,7 @@
   (fn [db [_ tag]]
     (GET (str "/api/issues-by-tag/" tag)
          {:handler       #(dispatch [:set-issues (:issues %)])
-          :error-handler #(ajax-error %)})
+          :error-handler ajax-error})
     db))
 
 (reg-event-db
@@ -60,7 +60,7 @@
                            :limit  10
                            :offset 0}
            :handler       #(dispatch [:set-issues (:issues %)])
-           :error-handler #(ajax-error %)})
+           :error-handler ajax-error})
     db))
 
 (reg-event-db
@@ -68,7 +68,7 @@
   (fn [db [_ support-issue-id]]
     (GET (str "/api/issue/" support-issue-id)
          {:handler       #(dispatch [:set-issue (:issue %)])
-          :error-handler #(ajax-error %)})
+          :error-handler ajax-error})
     db))
 
 (reg-event-db
@@ -78,7 +78,7 @@
          {:handler       #(do
                            (dispatch-sync [:set-issue (:issue %)])
                            (dispatch [:set-active-page :view-issue]))
-          :error-handler #(ajax-error %)})
+          :error-handler ajax-error})
     (dissoc db :issue)))
 
 (reg-event-db
@@ -99,7 +99,7 @@
                             (dispatch [:load-tags] tags)
                             (dispatch-sync [:set-issue (assoc issue :support-issue-id %)])
                             (navigate! (str "/issue/" %)))
-           :error-handler #(ajax-error %)})
+           :error-handler ajax-error})
     db))
 
 (reg-event-db
@@ -115,7 +115,7 @@
                            (dispatch [:load-tags] tags)
                            (dispatch-sync [:set-issue issue])
                            (navigate! (str "/issue/" support-issue-id)))
-          :error-handler #(ajax-error %)})
+          :error-handler ajax-error})
     db))
 
 (reg-event-db
@@ -123,7 +123,7 @@
   (fn [db [_ support-issue-id]]
     (DELETE (str "/api/issue/" support-issue-id)
             {:handler       #(navigate! "/")
-             :error-handler #(ajax-error %)})
+             :error-handler ajax-error})
     db))
 
 (reg-event-db
@@ -140,7 +140,7 @@
   :delete-file
   (fn [db [_ support-issue-id filename]]
     (DELETE (str "/api/file/" support-issue-id "/" filename)
-            {:handler #(dispatch [:remove-file-from-issue filename])
-             :error-handler #(ajax-error %)})
+            {:handler       #(dispatch [:remove-file-from-issue filename])
+             :error-handler ajax-error})
     db))
 
