@@ -118,7 +118,7 @@
       confirm-open?
       cancel-edit
       "Discard"]
-     [validation-modal errors]
+     [validation-modal "Missing required fields" errors]
      [:div.btn-toolbar.pull-right
       [bs/Button
        {:bs-style "warning"

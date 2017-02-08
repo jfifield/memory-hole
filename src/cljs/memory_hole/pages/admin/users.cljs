@@ -9,7 +9,7 @@
 (defn user-search []
   (r/with-let [search    (r/atom nil)
                do-search #(when-let [value (not-empty @search)]
-                           (dispatch [:admin/search-for-users value]))]
+                            (dispatch [:admin/search-for-users value]))]
     [bs/FormGroup
      [bs/InputGroup
       [bs/FormControl
@@ -27,7 +27,7 @@
   (r/with-let [errors  (r/atom nil)
                user-id (:user-id @user)]
     [:div.row>div.col-sm-12
-     [validation-modal errors]
+     [validation-modal "Missing required fields" errors]
      [:div.pull-right
       [:div.btn-toolbar
        [:button.btn.btn-sm.btn-danger
@@ -61,6 +61,22 @@
       :on-change   #(reset! cursor (-> % .-target .-value))
       :placeholder placeholder}]]])
 
+(defn group-selector [selected-group-name]
+  (r/with-let [groups              @(subscribe [:groups])]
+    [bs/DropdownButton
+     {:id     "group-selector"
+      :title  (or @selected-group-name "Select Group")
+      :bsSize "small"}
+     (->> groups
+          (map-indexed
+            (fn [idx {:keys [group-id group-name]}]
+              ^{:key group-id}
+              [bs/MenuItem
+               {:id       group-id
+                :on-click #(reset! selected-group-name group-name)}
+               group-name]))
+          (doall))]))
+
 (defn edit-user [title user-map close-editor]
   (r/with-let [user (-> user-map
                         (dissoc :last-login)
@@ -86,6 +102,12 @@
       "Confirm password"
       (r/cursor user [:pass-confirm])
       :password "Confirm the password for the user"]
+     [bs/FormGroup
+      [bs/ControlLabel
+       {:class "col-lg-2"}
+       "Group"]
+      [:div.col-lg-10
+       [group-selector (r/cursor user [:group-name])]]]
      [bs/FormGroup
       [:span.col-lg-2]
       [:div.col-lg-10

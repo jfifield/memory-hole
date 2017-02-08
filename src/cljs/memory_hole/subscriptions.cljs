@@ -27,6 +27,12 @@
 
 (reg-sub :login-events query)
 
+(reg-sub :groups query)
+
 ;;admin
 (reg-sub :admin/users query)
 
+(reg-sub
+  :admin/group-users
+  (fn [db [_ group-name]]
+    (get-in db [:group-users group-name])))

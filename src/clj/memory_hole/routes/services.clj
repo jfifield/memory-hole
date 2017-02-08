@@ -5,8 +5,9 @@
             [schema.core :as s]
             [compojure.api.meta :refer [restructure-param]]
             [memory-hole.routes.services.attachments :as attachments]
-            [memory-hole.routes.services.issues :as issues]
             [memory-hole.routes.services.auth :as auth]
+            [memory-hole.routes.services.groups :as groups]
+            [memory-hole.routes.services.issues :as issues]
             [buddy.auth.accessrules :refer [restrict]]
             [buddy.auth :refer [authenticated?]]))
 
@@ -47,19 +48,28 @@
     :auth-rules admin?
     :tags ["admin"]
 
+    ;;users
     (GET "/users/:screenname" []
       :path-params [screenname :- s/Str]
       :return auth/SearchResponse
       :summary "returns users with matching screennames"
       (auth/find-users screenname))
 
+    (GET "/users/group/:group-name" []
+      :path-params [group-name :- s/Str]
+      :return auth/SearchResponse
+      :summary "returns users that are part of a group"
+      (auth/find-users-by-group group-name))
+
     (POST "/user" []
       :body-params [screenname :- s/Str
+                    group-name :- s/Str
                     pass :- s/Str
                     pass-confirm :- s/Str
                     admin :- s/Bool
                     is-active :- s/Bool]
       (auth/register! {:screenname   screenname
+                       :group-name   group-name
                        :pass         pass
                        :pass-confirm pass-confirm
                        :admin        admin
@@ -68,6 +78,7 @@
     (PUT "/user" []
       :body-params [user-id :- s/Int
                     screenname :- s/Str
+                    group-name :- s/Str
                     pass :- (s/maybe s/Str)
                     pass-confirm :- (s/maybe s/Str)
                     admin :- s/Bool
@@ -75,10 +86,18 @@
       :return auth/LoginResponse
       (auth/update-user! {:user-id      user-id
                           :screenname   screenname
+                          :group-name   group-name
                           :pass         pass
                           :pass-confirm pass-confirm
                           :admin        admin
-                          :is-active    is-active})))
+                          :is-active    is-active}))
+
+    ;;groups
+    (POST "/group" []
+      :body-params [group-name :- s/Str]
+      :return groups/GroupResult
+      :summary "add a new group"
+      (groups/add-group! {:group-name group-name})))
 
   (context "/api" []
     :auth-rules authenticated?
@@ -88,6 +107,12 @@
       :return auth/LogoutResponse
       :summary "remove the user from the session"
       (auth/logout))
+
+    ;;groups
+    (GET "/groups" []
+      :return groups/GroupsResult
+      :summary "list all groups"
+      (groups/groups))
 
     ;;tags
     (GET "/tags" []

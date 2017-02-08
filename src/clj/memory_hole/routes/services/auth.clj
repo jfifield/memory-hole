@@ -42,6 +42,7 @@
 (def User
   {:user-id                         s/Int
    :screenname                      (s/maybe s/Str)
+   :group-name                      s/Str
    :admin                           s/Bool
    :is-active                       s/Bool
    :last-login                      java.util.Date
@@ -66,6 +67,12 @@
     {:users
      (db/users-by-screenname
        {:screenname (str "%" screenname "%")})}))
+
+(handler find-users-by-group [group-name]
+  (ok
+    {:users
+     (db/users-by-group
+       {:group-name group-name})}))
 
 (handler register! [user]
   (if-let [errors (v/validate-create-user user)]
